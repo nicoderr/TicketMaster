@@ -50,6 +50,96 @@ def create_tab1(notebook, role):
         delete_event_button = tk.Button(tab1_frame, text="Delete Selected Event", command=lambda: delete_event(tree, role))
         delete_event_button.pack(pady=10)
 
+    # Add booking button only for Customer role
+    if role == "Customer":
+        book_event_button = tk.Button(tab1_frame, text="Book Selected Event", command=lambda: book_event(tree))
+        book_event_button.pack(pady=10)
+
+
+def create_event_card(event_details):
+    card_window = tk.Toplevel()
+    card_window.title("Event Booking Details")
+
+    tk.Label(card_window, text=f"Event Name: {event_details['event_name']}", font=("Arial", 14)).pack(pady=10)
+    tk.Label(card_window, text=f"Event Date: {event_details['event_date']}", font=("Arial", 12)).pack(pady=5)
+    tk.Label(card_window, text=f"Start Time: {event_details['start_time']}", font=("Arial", 12)).pack(pady=5)
+    tk.Label(card_window, text=f"End Time: {event_details['end_time']}", font=("Arial", 12)).pack(pady=5)
+    tk.Label(card_window, text=f"Available Tickets: {event_details['available_tickets']}", font=("Arial", 12)).pack(
+        pady=5)
+
+    # Booking form
+    tk.Label(card_window, text="Number of Tickets:", font=("Arial", 12)).pack(pady=10)
+    tickets_entry = tk.Entry(card_window)
+    tickets_entry.pack(pady=5)
+
+    def confirm_booking():
+        try:
+            # Get number of tickets from the entry field
+            number_of_tickets = int(tickets_entry.get())
+            available_tickets = event_details['available_tickets']
+
+            # Validate ticket booking
+            if number_of_tickets <= 0:
+                raise ValueError("Number of tickets must be greater than zero.")
+            if number_of_tickets > available_tickets:
+                raise ValueError("Not enough tickets available.")
+
+            # Update available tickets in the EVENT table
+            new_available_tickets = available_tickets - number_of_tickets
+            query = "UPDATE EVENT SET available_tickets = %s WHERE event_id = %s"
+            cursor.execute(query, (new_available_tickets, event_details['event_id']))
+
+            # Fetch ticket IDs for the current event
+            ticket_query = "SELECT ticket_id FROM TICKET WHERE event_id = %s LIMIT %s"
+            cursor.execute(ticket_query, (event_details['event_id'], number_of_tickets))
+            ticket_ids = cursor.fetchall()
+
+            # Ensure there are enough available tickets to book
+            if len(ticket_ids) < number_of_tickets:
+                raise ValueError("Not enough tickets available.")
+
+            db_connection.commit()
+            messagebox.showinfo("Booking Successful", f"{number_of_tickets} tickets booked successfully!")
+            card_window.destroy()
+
+        except ValueError as e:
+            messagebox.showerror("Input Error", str(e))
+        except Exception as e:
+            db_connection.rollback()  # Rollback in case of any error
+            messagebox.showerror("Database Error", str(e))
+
+    # Confirm Booking button
+    confirm_button = tk.Button(card_window, text="Confirm Booking", command=confirm_booking)
+    confirm_button.pack(pady=20)
+
+
+def book_event(tree):
+    # Get selected item
+    selected_item = tree.selection()
+    if not selected_item:
+        messagebox.showwarning("Selection Error", "Please select an event to book.")
+        return
+
+    # Get event details
+    event = tree.item(selected_item, 'values')
+    event_details = {
+        'event_id': event[0],
+        'event_name': event[1],
+        'event_date': event[2],
+        'start_time': event[3],
+        'end_time': event[4],
+        'venue_id': event[5]
+    }
+
+    # Fetch available tickets for the selected event
+    query = "SELECT available_tickets FROM EVENT WHERE event_id = %s"
+    cursor.execute(query, (event_details['event_id'],))
+    available_tickets = cursor.fetchone()[0]
+    event_details['available_tickets'] = available_tickets
+
+    create_event_card(event_details)
+
+
 def add_event_popup(role):
     # Check if the user is Admin
     if role not in ["Admin", "Organization"]:
