@@ -4,8 +4,8 @@ import mysql.connector
 db_connection = mysql.connector.connect(
     host="localhost",  # or '127.0.0.1' or the IP/domain of your MySQL server
     user="root",  # the username, usually 'root'
-    password="Yashmk@901",  # your password
-    database="ticketbookingsystem",  # the database name
+    password="nitu24",  # your password
+    database="ticketmanagementsystem",  # the database name
     port=3306  # the port, usually 3306
 )
 
