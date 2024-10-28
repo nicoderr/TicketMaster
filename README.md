@@ -25,8 +25,7 @@ The system follows best practices to provide seamless interface with SQL databas
 
 1. Cloning the Repository:
     - git clone <repository_url>
-    - cd Online-Ticketing-System
-
+    - cd <your-folder-name>
 2. Installing Dependencies:
     - pip install mysql-connector-python
 
