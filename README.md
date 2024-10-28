@@ -8,8 +8,8 @@ Smitkumar Panchal, spanchal4@hawk.iit.edu, A20527904, 33.33%
 
 ##### Project Overview: #####
 This projects implements an Online Ticketing System which is a desktop based application. This system is developed using Python using Tkinter for GUI and MySQL for the backend database. This project illustrates an extensive role-based system consisiting of three distinct roles:
-    a. Admin: Manages users and events
-    b. Organizer: Can organize events and manage events.
+    a. Admin: Manages events.
+    b. Organizer: Can organize events.
     c. Customer: Can view and book the events.
 The system follows best practices to provide seamless interface with SQL databases for data validation, error handling, and CRUD (Create, Read, Update, and Delete) operations. It also demonstrates strong functionality, clear code structure, thorough error management, and role-based access control, all of which aligns with the rubrics.
 
@@ -18,7 +18,7 @@ The system follows best practices to provide seamless interface with SQL databas
 1. Progrmamming Language: Python versions 3.x versions
 2. Database: MySQL Server
 3. Libraries:
-    - mysql-connector-python (interaction with database)
+    - mysql-connector-python (connecting to the MySQL database)
     - tkinter (this comes pre-installed with python for GUI)
 
 ##### Setup #####
@@ -67,10 +67,8 @@ The system follows best practices to provide seamless interface with SQL databas
 1. EventInfo.py: This code file depicts the Admin panel to manage the events.
 2. Navigator.py: Navigates between the roles (RegistrationPage.py calls this function) 
 3. RegistrationPage.py: Manages role-based login and user registration (main entry point)
-4. tab2.py: Shows a secondary tab containing the ticket list.
-5. tab3.py: tab3.py is an empty placeholder, for later use.
-6. user_profile.py: User profile information is displayed.
-7. ConnectingDatabase.py: Manages SQL connection.
+4. user_profile.py: User profile information is displayed.
+5. ConnectingDatabase.py: Manages SQL connection.
 
 ##### Usage and CRUD Operations #####
 
@@ -82,30 +80,20 @@ Read:
     - Customers can view the available events from the EventInfo tab. (events retreived from the EVENTS table)
 Update:
     - Number of tickets available in the EVENT table is reduced by one when a ticket is booked.
-    - Booking information is updated in the TICKET and BOOKING tables.
-Delete:
-    - Admins can delete client data if needed, but customers do not have the ability to do so.
 
 b. Organizer can:
 Create:
-    - Create, manage new events and assign performers to events.
+    - Create new events and assign performers to events.
 Read:
-    - Organizations can view events assigned to them as well as the performer information related to those events.
-Update:
-    - Change the details such as dates, venues, and performers of the event.
-Delete:
-    - Only Admins can delete the events
-Events can be deleted by Admin, however organizers can remove performers from the events.
+    - Organizations can view events.
 
 c. Admin:
 Create:
-    - Add new events on the Admin Panel.
+    - Add new events.
 Read:
-    - View users, events, and bookings in the system.
-Update:
-    - Modify event details or user roles as needed.
+    - View events in the system.
 Delete:
-    - Delete users, events using the Admin Panel.
+    - Only Admins can delete the events.
 
 ##### Error Handling #####
 
