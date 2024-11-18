@@ -64,11 +64,26 @@ The system follows best practices to provide seamless interface with SQL databas
 
 ##### File Structure #####
 
-1. EventInfo.py: This code file depicts the Admin panel to manage the events.
-2. Navigator.py: Navigates between the roles (RegistrationPage.py calls this function) 
-3. RegistrationPage.py: Manages role-based login and user registration (main entry point)
-4. user_profile.py: User profile information is displayed.
-5. ConnectingDatabase.py: Manages SQL connection.
+TicketManagementSystem ontains two main panels: AdminPanel and UserPanel
+
+* Includes a ConnectingDatabase.py file for database operations
+
+AdminPanel Directory:
+* EventInfo.py - The EventInfo.py file in the AdminPanel manages event-related data by connecting to a MySQL database, displaying booked events, handling upcoming event listings, and providing a user interface for ticket management through tkinter-based GUI components.
+* Navigator.py - Navigator.py creates a tabbed GUI interface that displays user profile information and manages navigation between different sections of the admin panel, featuring a main window with user details and additional tabs for event information and other functionalities.
+* RegistrationPage.py - RegistrationPage.py creates a user registration form with input fields for first name, last name, email, and role selection (Admin/Organization/Customer). It validates user credentials against a database and directs users to appropriate navigation panels based on their role, using tkinter for the GUI interface.
+* tab2.py - Handles displaying and calculating event revenues, with filtering capabilities and detailed revenue summaries for administrative oversight.
+* user_profile.py - It creates a GUI window in the Admin Panel to display a user's profile information, including their first name, last name, email, and role, using the Tkinter library.
+
+UserPanel Directory:
+* BookingProcedure.py - The BookingProcedure.py handles event booking by creating or validating user records, generating tickets, updating event availability, and confirming bookings in the ticketbookingsystem database.
+* Registration.py - User registration
+* RegistrationPage.py - User registration interface
+* tab2.py and tab3.py - Additional tab functionalities
+* user_profile.py - User profile management
+* UserEventInfo.py - Event information display for users
+* UserNavigator.py - Navigation for user interface
+
 
 ##### Usage and CRUD Operations #####
 
